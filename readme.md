@@ -6,7 +6,7 @@ Service bus can be a bit of an overloaded term.  This is a library that allows y
 
 These types of applications are extremely robust, easy to understand and very business focused.
 
-True "microservices" without all the pain of service discovery.
+True "microservices" without any pain.
 
 Abstracts the transport and storage layers - your code is the same if you're running against Azure Service Bus, Rabbit or the file system (configuration is different though).
 
