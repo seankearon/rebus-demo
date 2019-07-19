@@ -1,4 +1,6 @@
-﻿# Rebus Demo
+This uses Azure Service Bus and SQL Server for saga persistence.  Run [this script](one/set-app-config.ps1) to configure your connection strings before you start.
+ 
+ # Rebus Demo
 
 A free and open source .Net "servivce bus".
 
