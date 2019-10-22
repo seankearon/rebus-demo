@@ -9,6 +9,7 @@ using Rebus.Auditing.Messages;
 using Rebus.Bus;
 using Rebus.Config;
 using Rebus.Extensions;
+using Rebus.Persistence.FileSystem;
 using Rebus.Persistence.InMem;
 using Rebus.Retry.Simple;
 using Rebus.Routing.TypeBased;
@@ -29,7 +30,7 @@ namespace common
 
     internal static class Extensions
     {
-        public static string SBConnectionString { get; set; }
+        public static string ConnectionString { get; set; }
 
         public static void SetLogging(this RebusLoggingConfigurer l)
         {
@@ -56,10 +57,13 @@ namespace common
 
             services.AddRebus(configure => configure
                     .Logging(l => l.SetLogging())
-                    //.Routing(r => r.TypeBased().MapAssemblyOf<SimonsOrders>(Queues.Receiver))
+                    .Routing(r => r.TypeBased().MapAssemblyOf<SimonsOrders>(Queues.Receiver))
                     .Options(t => t.SimpleRetryStrategy(maxDeliveryAttempts: 2, errorQueueAddress: Queues.Error))
                     .Options(t => t.EnableMessageAuditing(Queues.Audit))
-                    .Transport(t => t.UseAzureServiceBus(SBConnectionString, queueName).AutomaticallyRenewPeekLock())
+                    .Transport(t => t.UseSqlServer(ConnectionString, queueName))
+                    .Subscriptions(t => t.UseJsonFile("C:/Bus/subscriptions.json"))
+
+                //.Transport(t => t.UseAzureServiceBus(ConnectionString, queueName).AutomaticallyRenewPeekLock())
                 // ASB has native support for subscription storage.  .Subscriptions(t => t.UseJsonFile("C:/Bus/subscriptions.json"))
             );
 
@@ -75,7 +79,8 @@ namespace common
                 .Routing(r => r.TypeBased().Map<SimonsOrders>(Queues.Receiver))
                 .Options(t => t.SimpleRetryStrategy(maxDeliveryAttempts: 2, errorQueueAddress: Queues.Error))
                 .Options(t => t.EnableMessageAuditing(Queues.Audit))
-                .Transport(t => t.UseAzureServiceBusAsOneWayClient(SBConnectionString))
+                .Transport(t => t.UseSqlServerAsOneWayClient(ConnectionString))
+                .Subscriptions(t => t.UseJsonFile("C:/Bus/subscriptions.json"))
             );
 
             return services;

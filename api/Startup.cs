@@ -12,7 +12,7 @@ namespace api
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            Extensions.SBConnectionString = Configuration["SBConnectionString"];
+            Extensions.ConnectionString = Configuration["MSSqlConnectionString"];
         }
 
         public IConfiguration Configuration { get; }

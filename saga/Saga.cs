@@ -28,7 +28,7 @@ namespace saga
         IHandleMessages<WelcomePackSentToCustomer>,
         IHandleMessages<VerifyCustomerOnboardingOla>
     {
-        public static TimeSpan OlaTimeout => TimeSpan.FromSeconds(10);
+        public static TimeSpan OlaTimeout => TimeSpan.FromSeconds(10); // In reality your timeout would be a bit longer!
 
         public OnboardCustomerSaga(IBus bus)
         {
@@ -120,7 +120,7 @@ namespace saga
             3.SecondsSleep();
             $"HANDLER - Account created for {m.CustomerName}.".Log();
 
-            await _bus.Publish(new CustomerAccountCreated {CustomerName = m.CustomerName});
+            await _bus.Reply(new CustomerAccountCreated {CustomerName = m.CustomerName});
         }
     }
 

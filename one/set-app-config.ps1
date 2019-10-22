@@ -4,4 +4,4 @@
 
 cd $PSScriptRoot
 dotnet user-secrets set "SBConnectionString" "<Your Azure Service Bus connection string here>"
-dotnet user-secrets set "MSSqlConnectionString" "<Your SQL Server connection string here>"
+dotnet user-secrets set "MSSqlConnectionString" "Data Source=(local);Initial Catalog=SK_Temp;Integrated Security=SSPI"

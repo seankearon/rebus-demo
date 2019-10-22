@@ -11,7 +11,7 @@ namespace one
         static void Main(string[] args)
         {
             var configuration = new ConfigurationBuilder().AddUserSecrets<Program>().Build();
-            Extensions.SBConnectionString = configuration["SBConnectionString"];
+            Extensions.ConnectionString = configuration["MSSqlConnectionString"];
 
             var services = new ServiceCollection();
 

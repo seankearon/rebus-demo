@@ -31,7 +31,9 @@ namespace saga.welcomepackservice
                 //.Routing(r => r.TypeBased().Map<SendWelcomePackToCustomer>(Queues.WelcomePackService))
                 .Options(t => t.SimpleRetryStrategy(maxDeliveryAttempts: 2, errorQueueAddress: Queues.Error))
                 .Options(t => t.EnableMessageAuditing(Queues.Audit))
-                .Transport(t => t.UseAzureServiceBus(Extensions.SBConnectionString, Queues.WelcomePackService))
+                //.Transport(t => t.UseAzureServiceBus(Extensions.SBConnectionString, Queues.WelcomePackService))
+                .Transport(t => t.UseSqlServer(Extensions.MSSqlConnectionString, Queues.WelcomePackService))
+                .Subscriptions(t => t.StoreInSqlServer(Extensions.MSSqlConnectionString, "Subscriptions"))
             );
 
 

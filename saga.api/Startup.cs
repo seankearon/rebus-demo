@@ -29,13 +29,16 @@ namespace api
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // Bus MacBusface
-            ((ServiceCollection) services).AddRebus(configure => configure
-                                                                .Logging(l => l.SetLogging())
-                                                                .Routing(r => r.TypeBased().Map<OnboardCustomer>(Queues.CreateCustomerService))
-                                                                .Options(t => t.SimpleRetryStrategy(maxDeliveryAttempts: 2, errorQueueAddress: Queues.Error))
-                                                                .Options(t => t.EnableMessageAuditing(Queues.Audit))
-                                                                .Transport(t => t.UseAzureServiceBusAsOneWayClient(Extensions.SBConnectionString))
-            );
+            ((ServiceCollection) services)
+                .AddRebus(configure => configure
+                    .Logging(l => l.SetLogging())
+                    .Routing(r => r.TypeBased().Map<OnboardCustomer>(Queues.CreateCustomerService))
+                    .Options(t => t.SimpleRetryStrategy(maxDeliveryAttempts: 2, errorQueueAddress: Queues.Error))
+                    .Options(t => t.EnableMessageAuditing(Queues.Audit))
+                    //.Transport(t => t.UseAzureServiceBusAsOneWayClient(Extensions.SBConnectionString))
+                    .Transport(t => t.UseSqlServerAsOneWayClient(Extensions.MSSqlConnectionString))
+                    .Subscriptions(t => t.StoreInSqlServer(Extensions.MSSqlConnectionString, "Subscriptions"))
+                );
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

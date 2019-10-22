@@ -39,7 +39,10 @@ namespace saga
 
                 .Options(t => t.SimpleRetryStrategy(maxDeliveryAttempts: 2, errorQueueAddress: Queues.Error))
                 .Options(t => t.EnableMessageAuditing(Queues.Audit))
-                .Transport(t => t.UseAzureServiceBus(Extensions.SBConnectionString, Queues.CreateCustomerService).AutomaticallyRenewPeekLock())
+                //.Transport(t => t.UseAzureServiceBus(Extensions.SBConnectionString, Queues.CreateCustomerService).AutomaticallyRenewPeekLock())
+                
+                .Transport(t => t.UseSqlServer(Extensions.MSSqlConnectionString, Queues.CreateCustomerService))
+                .Subscriptions(t => t.StoreInSqlServer(Extensions.MSSqlConnectionString, "Subscriptions"))
 
                 // Just with the saga storage added
                 .Sagas(x => x.StoreInSqlServer(Extensions.MSSqlConnectionString, "Sagas", "SagaIndexes"))
@@ -53,7 +56,6 @@ namespace saga
                 {
                     // Subscribe to the messages that we handle.
                     bus.Subscribe<OnboardCustomer>();
-                    bus.Subscribe<CustomerAccountCreated>();
                     bus.Subscribe<WelcomePackSentToCustomer>();
                 });
 

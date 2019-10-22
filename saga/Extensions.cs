@@ -20,8 +20,8 @@ namespace common
     {
         public static void SetLogging(this RebusLoggingConfigurer l)
         {
-            //l.ColoredConsole();
-            l.None();
+            l.ColoredConsole();
+            //l.None();
         }
 
         public static string SBConnectionString { get; set; }

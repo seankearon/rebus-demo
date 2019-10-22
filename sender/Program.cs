@@ -10,7 +10,7 @@ namespace sender
         static void Main(string[] args)
         {
             var configuration = new ConfigurationBuilder().AddUserSecrets<Program>().Build();
-            Extensions.SBConnectionString = configuration["SBConnectionString"];
+            Extensions.ConnectionString = configuration["MSSqlConnectionString"];
 
             var services = new ServiceCollection();
             services.AddSingleton<Producer>();
