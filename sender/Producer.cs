@@ -20,7 +20,7 @@ namespace sender
 
             while (keepRunning)
             {
-                Console.WriteLine(@"a) PUBLISH a Simon Says message
+                Console.WriteLine(@"a) PUBLISH an event
 b) SEND a command 
 q) Quit");
                 var key = char.ToLower(Console.ReadKey(true).KeyChar);
