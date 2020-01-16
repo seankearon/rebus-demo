@@ -20,8 +20,8 @@ namespace one
 
             while (keepRunning)
             {
-                Console.WriteLine(@"a) PUBLISH a Simon Says event
-b) SEND DEFERRED command
+                Console.WriteLine(@"a) PUBLISH an event
+b) SEND a DEFERRED command
 q) Quit");
                 var key = char.ToLower(Console.ReadKey(true).KeyChar);
 
